@@ -4,115 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل الدخول</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background: #f5f7ff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .container {
-            width: 320px;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            text-align: center;
-        }
-
-        h2 {
-            margin-top: 0;
-            margin-bottom: 20px;
-            color: #222;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 15px;
-            box-sizing: border-box;
-            outline: none;
-            transition: 0.2s;
-        }
-
-        input:focus {
-            border-color: #4353ff;
-        }
-
-        button {
-            padding: 12px;
-            background: #4353ff;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 5px;
-        }
-
-        button:hover {
-            background: #2f3be6;
-        }
-
-        .error {
-            color: #ff3b30;
-            font-size: 14px;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        .signup-link {
-            display: block;
-            margin-top: 20px;
-            font-size: 14px;
-            color: #555;
-        }
-
-        .signup-link a {
-            color: #4353ff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .signup-link a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
 <div class="container">
     <h2>تسجيل الدخول</h2>
-
     <form action="/login" method="POST">
         <input type="email" name="email" placeholder="البريد الإلكتروني" required>
         <input type="password" name="password" placeholder="كلمة المرور" required>
         <button type="submit">دخول</button>
     </form>
-
     {% if error %}
     <div class="error">{{ error }}</div>
     {% endif %}
-
-    <div class="signup-link">
-        ليس لديك حساب؟ <a href="signup">إنشاء حساب</a>
+    <div class="signup-link" style="margin-top: 20px; font-size: 14px; color: #555;">
+        ليس لديك حساب؟ <a href="/signup" style="color: #4353ff; font-weight: bold;">إنشاء حساب</a>
     </div>
 </div>
-
 </body>
 </html>

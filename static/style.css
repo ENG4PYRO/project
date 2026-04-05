@@ -46,6 +46,11 @@ input:focus, select:focus { border-color: #4353ff; }
 
 .error { color: #ff3b30; font-size: 14px; margin-top: 10px; font-weight: bold; }
 
+.btn-box {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
 
 button, .btn, .btn-back { 
     display: block; 
