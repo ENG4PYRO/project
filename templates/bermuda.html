@@ -1,91 +1,49 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>برمودا تايم - My Study Planner</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برمودا تايم</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f7ff; margin: 0; display: flex; justify-content: center; padding-top: 50px; }
+        .container { width: 320px; background: #ffffff; padding: 30px; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; }
+        h2 { margin-top: 0; color: #222; margin-bottom: 20px;}
+        
+        .time { font-size: 4em; margin: 20px 0; color: #4353ff; font-weight: bold; font-family: monospace; letter-spacing: 2px;}
+        
+        .controls { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
+        button { background: #4353ff; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.2s; flex: 1;}
+        button:hover { background: #2f3be6; }
+        .btn-stop { background: #ff3b30; }
+        .btn-stop:hover { background: #d32f2f; }
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #e0f7fa;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        direction: rtl;
-    }
-
-    .container {
-        background-color: #ffffff;
-        padding: 30px;
-        border-radius: 16px;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-        text-align: center;
-        width: 300px;
-    }
-
-    h1 {
-        color: #0d47a1;
-        margin-bottom: 20px;
-    }
-
-    .time {
-        font-size: 2.5em;
-        margin: 20px 0;
-        color: #1976d2;
-        font-weight: bold;
-    }
-
-    button {
-        background-color: #1976d2;
-        color: white;
-        border: none;
-        padding: 12px 25px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 16px;
-        margin: 8px;
-        font-weight: bold;
-        transition: 0.2s;
-    }
-
-    button:hover {
-        background-color: #0d47a1;
-    }
-
-    .back {
-        display: block;
-        margin-top: 15px;
-        text-decoration: none;
-        color: #1976d2;
-        font-weight: bold;
-    }
-</style>
+        .btn-back { display: block; margin-top: 18px; padding: 12px; background: #4353ff; color: #fff; border-radius: 10px; text-decoration: none; font-size: 17px; box-shadow: 0 3px 8px rgba(67,83,255,0.25); transition: 0.2s; text-align: center;}
+        .btn-back:hover { background: #2f3be6; }
+    </style>
 </head>
-
 <body>
 
 <div class="container">
-    <h1>⏳ برمودا تايم</h1>
+    <h2>⏳ برمودا تايم</h2>
 
     <div class="time" id="time">00:00</div>
 
-    <div>
+    <div class="controls">
         <button onclick="startTimer()">ابدأ</button>
-        <button onclick="stopTimer()">أوقف</button>
+        <button class="btn-stop" onclick="stopTimer()">إيقاف</button>
     </div>
 
-    <a class="back" href="/">🔙 العودة للرئيسية</a>
+    <a class="btn-back" href="/">🔙 العودة للرئيسية</a>
 </div>
 
 <script>
     let timer;
     let seconds = 0;
+    let isRunning = false;
 
     function startTimer() {
-        clearInterval(timer);
+        if (isRunning) return; // حماية لكي لا يتسارع المؤقت إذا ضغط المستخدم "ابدأ" عدة مرات
+        isRunning = true;
         timer = setInterval(() => {
             seconds++;
             document.getElementById("time").innerText = formatTime(seconds);
@@ -94,6 +52,7 @@
 
     function stopTimer() {
         clearInterval(timer);
+        isRunning = false;
     }
 
     function formatTime(totalSeconds) {

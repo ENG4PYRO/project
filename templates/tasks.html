@@ -1,120 +1,86 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>المهام والواجبات</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المهام والواجبات</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f7ff; margin: 0; display: flex; justify-content: center; padding-top: 40px; }
+        .container { width: 360px; background: #ffffff; padding: 22px; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; }
+        h2 { margin-top: 0; color: #222; }
+        
+        form.add-form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        select, input, button { padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 15px; outline: none; }
+        select:focus, input:focus { border-color: #4353ff; }
+        button.btn-add { background: #4353ff; color: #fff; font-weight: bold; cursor: pointer; border: none; transition: 0.2s;}
+        button.btn-add:hover { background: #2f3be6; }
+        
+        /* تصميم مختلف قليلاً للمهام لتمييزها عن الجدول (لون برتقالي) */
+        .task-item { background: #fffaf0; padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-right: 4px solid #ff9500; border-left: 1px solid #eee; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+        .details { text-align: right; }
+        .details span { display: block; font-size: 14px; color: #333; margin-bottom: 3px;}
+        .task-type { display: inline-block; background: #ffe4b5; color: #b8860b; padding: 2px 6px; border-radius: 4px; font-size: 12px; margin-bottom: 5px; font-weight: bold;}
+        
+        .btn-delete { background: #ff3b30; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; transition: 0.2s;}
+        .btn-delete:hover { background: #d32f2f; }
+        
+        .btn-back {
+    display: block;
+    margin-top: 18px;
+    padding: 12px;
+    background: #4353ff;
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 17px;
+    box-shadow: 0 3px 8px rgba(67,83,255,0.25);
+    transition: 0.2s;
+    text-align: center;
+}
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f7ff;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      padding-top: 30px;
-      direction: rtl;
-    }
-
-    .container {
-      width: 360px;
-      background: #ffffff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-
-    h1 {
-      text-align: center;
-      margin-top: 0;
-      margin-bottom: 15px;
-      font-size: 22px;
-    }
-
-    .task-box {
-      background: #eef1ff;
-      padding: 12px;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      font-size: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .task-box span {
-      font-weight: 600;
-    }
-
-    .task-box button {
-      background: #ff6666;
-      color: #fff;
-      border: none;
-      padding: 6px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    form input, form select, form button {
-      width: 100%;
-      padding: 10px;
-      margin: 6px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 15px;
-      box-sizing: border-box;
-    }
-
-    form button {
-      background: #4353ff;
-      color: #fff;
-      border: none;
-      margin-top: 6px;
-      cursor: pointer;
-    }
-
-    .btn-back {
-      display: block;
-      text-align: center;
-      margin-top: 12px;
-      padding: 10px;
-      background: #4353ff;
-      color: #fff;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 14px;
-    }
-  </style>
+.btn-back:hover {
+    background: #2f3be6;
+}
+        .empty-msg { color:#666; font-size:14px; margin: 15px 0; }
+    </style>
 </head>
-
 <body>
 
-  <div class="container">
-    <h1>المهام والواجبات</h1>
-
-    <!-- حالياً Frontend فقط -->
-    <form>
-      <input type="text" placeholder="عنوان المهمة (مثال: واجب رياضيات)" required />
-      <input type="date" required />
-      <select>
-        <option>واجب</option>
-        <option>مهمة</option>
-      </select>
-      <button type="submit">إضافة المهمة</button>
+<div class="container">
+    <h2>📝 المهام والواجبات</h2>
+    
+    <form class="add-form" action="/tasks" method="POST">
+        <input type="text" name="title" placeholder="عنوان المهمة (مثال: واجب رياضيات)" required>
+        <input type="date" name="task_date" required>
+        <select name="task_type" required>
+            <option value="واجب">واجب</option>
+            <option value="مهمة">مهمة</option>
+            <option value="مشروع">مشروع</option>
+        </select>
+        <button type="submit" class="btn-add">إضافة المهمة</button>
     </form>
 
-    <h2 style="text-align:center; font-size:16px; margin:12px 0 8px;">
-      قائمة المهام
-    </h2>
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
 
-    <!-- القائمة حالياً فارغة -->
-    <div id="taskList"></div>
+    <div id="taskList">
+        {% if task_items %}
+            {% for item in task_items %}
+            <div class="task-item">
+                <div class="details">
+                    <span class="task-type">{{ item[3] }}</span> <span><strong>{{ item[1] }}</strong></span> <span>تاريخ التسليم: {{ item[2] }}</span> </div>
+                
+                <form action="/delete_task/{{ item[0] }}" method="POST" style="margin:0;">
+                    <button type="submit" class="btn-delete">حذف</button>
+                </form>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="empty-msg">لا توجد مهام حالياً، عمل ممتاز! 🎉</p>
+        {% endif %}
+    </div>
 
-    <!-- رجوع صحيح -->
-    <a class="btn-back" href="/">🔙 الرجوع إلى الصفحة الرئيسية</a>
-  </div>
-<script src="{{ url_for('static', filename='tasks.js') }}"></script>
+    <a class="btn-back" href="/">🔙 العودة للرئيسية</a>
+</div>
 
 </body>
 </html>

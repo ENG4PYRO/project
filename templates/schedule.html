@@ -1,32 +1,90 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>الجدول الدراسي</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الجدول الدراسي</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f7ff; margin: 0; display: flex; justify-content: center; padding-top: 40px; }
+        .container { width: 360px; background: #ffffff; padding: 22px; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; }
+        h2 { margin-top: 0; color: #222; }
+        
+        form.add-form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        select, input, button { padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 15px; outline: none; }
+        select:focus, input:focus { border-color: #4353ff; }
+        button.btn-add { background: #4353ff; color: #fff; font-weight: bold; cursor: pointer; border: none; transition: 0.2s;}
+        button.btn-add:hover { background: #2f3be6; }
+        
+        .schedule-item { background: #eef1ff; padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-right: 4px solid #4353ff; }
+        .details { text-align: right; }
+        .details span { display: block; font-size: 14px; color: #333; margin-bottom: 3px;}
+        .btn-delete { background: #ff3b30; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; transition: 0.2s;}
+        .btn-delete:hover { background: #d32f2f; }
+        
+        .btn-back {
+    display: block;
+    margin-top: 18px;
+    padding: 12px;
+    background: #4353ff;
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 17px;
+    box-shadow: 0 3px 8px rgba(67,83,255,0.25);
+    transition: 0.2s;
+    text-align: center;
+}
+
+.btn-back:hover {
+    background: #2f3be6;
+}
+        .empty-msg { color:#666; font-size:14px; margin: 15px 0; }
+    </style>
 </head>
 <body>
 
-<h1>الجدول الدراسي</h1>
+<div class="container">
+    <h2>📚 الجدول الدراسي</h2>
+    
+    <form class="add-form" action="/schedule" method="POST">
+        <select name="day" required>
+            <option value="" disabled selected>اختر اليوم</option>
+            <option value="السبت">السبت</option>
+            <option value="الأحد">الأحد</option>
+            <option value="الاثنين">الاثنين</option>
+            <option value="الثلاثاء">الثلاثاء</option>
+            <option value="الأربعاء">الأربعاء</option>
+            <option value="الخميس">الخميس</option>
+            <option value="الجمعة">الجمعة</option>
+        </select>
+        <input type="text" name="subject" placeholder="اسم المادة (مثال: رياضيات)" required>
+        <input type="time" name="class_time" required>
+        <button type="submit" class="btn-add">إضافة الحصة</button>
+    </form>
 
-<form id="scheduleForm">
-  <select id="day" required>
-    <option value="">اختر اليوم</option>
-    <option>السبت</option>
-    <option>الأحد</option>
-    <option>الاثنين</option>
-    <option>الثلاثاء</option>
-    <option>الأربعاء</option>
-    <option>الخميس</option>
-    <option>الجمعة</option>
-  </select>
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
 
-  <input id="subject" placeholder="المادة" required>
-  <input id="time" type="time" required>
-  <button type="submit">إضافة</button>
-</form>
+    <div id="scheduleList">
+        {% if schedule_items %}
+            {% for item in schedule_items %}
+            <div class="schedule-item">
+                <div class="details">
+                    <span><strong>{{ item[1] }}</strong></span>
+                    <span>المادة: {{ item[2] }}</span>
+                    <span>الوقت: {{ item[3] }}</span>
+                </div>
+                <form action="/delete_schedule/{{ item[0] }}" method="POST" style="margin:0;">
+                    <button type="submit" class="btn-delete">حذف</button>
+                </form>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="empty-msg">لا توجد حصص في جدولك حالياً.</p>
+        {% endif %}
+    </div>
 
-<div id="scheduleList"></div>
+    <a class="btn-back" href="/">🔙 العودة للرئيسية</a>
+</div>
 
-<script src="{{ url_for('static', filename='schedule.js') }}"></script>
 </body>
 </html>
