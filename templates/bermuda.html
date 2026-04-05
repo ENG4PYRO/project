@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>برمودا تايم - My Study Planner</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #e0f7fa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        direction: rtl;
+    }
+
+    .container {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        text-align: center;
+        width: 300px;
+    }
+
+    h1 {
+        color: #0d47a1;
+        margin-bottom: 20px;
+    }
+
+    .time {
+        font-size: 2.5em;
+        margin: 20px 0;
+        color: #1976d2;
+        font-weight: bold;
+    }
+
+    button {
+        background-color: #1976d2;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 8px;
+        font-weight: bold;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        background-color: #0d47a1;
+    }
+
+    .back {
+        display: block;
+        margin-top: 15px;
+        text-decoration: none;
+        color: #1976d2;
+        font-weight: bold;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>⏳ برمودا تايم</h1>
+
+    <div class="time" id="time">00:00</div>
+
+    <div>
+        <button onclick="startTimer()">ابدأ</button>
+        <button onclick="stopTimer()">أوقف</button>
+    </div>
+
+    <a class="back" href="/">🔙 العودة للرئيسية</a>
+</div>
+
+<script>
+    let timer;
+    let seconds = 0;
+
+    function startTimer() {
+        clearInterval(timer);
+        timer = setInterval(() => {
+            seconds++;
+            document.getElementById("time").innerText = formatTime(seconds);
+        }, 1000);
+    }
+
+    function stopTimer() {
+        clearInterval(timer);
+    }
+
+    function formatTime(totalSeconds) {
+        const minutes = Math.floor(totalSeconds / 60);
+        const secs = totalSeconds % 60;
+        return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+    }
+</script>
+
+</body>
+</html>

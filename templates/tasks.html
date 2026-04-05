@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>المهام والواجبات</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7ff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      padding-top: 30px;
+      direction: rtl;
+    }
+
+    .container {
+      width: 360px;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 22px;
+    }
+
+    .task-box {
+      background: #eef1ff;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      font-size: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .task-box span {
+      font-weight: 600;
+    }
+
+    .task-box button {
+      background: #ff6666;
+      color: #fff;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    form input, form select, form button {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+
+    form button {
+      background: #4353ff;
+      color: #fff;
+      border: none;
+      margin-top: 6px;
+      cursor: pointer;
+    }
+
+    .btn-back {
+      display: block;
+      text-align: center;
+      margin-top: 12px;
+      padding: 10px;
+      background: #4353ff;
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>المهام والواجبات</h1>
+
+    <!-- حالياً Frontend فقط -->
+    <form>
+      <input type="text" placeholder="عنوان المهمة (مثال: واجب رياضيات)" required />
+      <input type="date" required />
+      <select>
+        <option>واجب</option>
+        <option>مهمة</option>
+      </select>
+      <button type="submit">إضافة المهمة</button>
+    </form>
+
+    <h2 style="text-align:center; font-size:16px; margin:12px 0 8px;">
+      قائمة المهام
+    </h2>
+
+    <!-- القائمة حالياً فارغة -->
+    <div id="taskList"></div>
+
+    <!-- رجوع صحيح -->
+    <a class="btn-back" href="/">🔙 الرجوع إلى الصفحة الرئيسية</a>
+  </div>
+<script src="{{ url_for('static', filename='tasks.js') }}"></script>
+
+</body>
+</html>

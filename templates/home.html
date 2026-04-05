@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الصفحة الرئيسية</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7ff;
+      display: flex;
+      justify-content: center;
+      padding-top: 40px;
+      direction: rtl;
+    }
+
+    .container {
+      width: 360px;
+      background: #ffffff;
+      padding: 22px;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 18px;
+      font-size: 24px;
+      color: #222;
+    }
+
+    .btn-box {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn {
+      display: block;
+      padding: 12px;
+      background: #4353ff;
+      color: #fff;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 18px;
+      box-shadow: 0 3px 8px rgba(67,83,255,0.25);
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      background: #2f3be6;
+    }
+
+    .small {
+      font-size: 14px;
+      margin-top: 20px;
+      color: #444;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>الصفحة الرئيسية</h1>
+
+    <div class="btn-box">
+
+      <!-- روابط صحيحة تعمل مع Flask -->
+      <a class="btn" href="/schedule">📚 الجدول الدراسي</a>
+      <a class="btn" href="/tasks">📝 المهام والواجبات</a>
+      <a class="btn" href="/exams">🧪 الامتحانات</a>
+
+    </div>
+
+    <div class="small">اختر الصفحة المطلوبة من القائمة أعلاه</div>
+  </div>
+
+</body>
+</html>

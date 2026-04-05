@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>الجدول الدراسي</title>
+</head>
+<body>
+
+<h1>الجدول الدراسي</h1>
+
+<form id="scheduleForm">
+  <select id="day" required>
+    <option value="">اختر اليوم</option>
+    <option>السبت</option>
+    <option>الأحد</option>
+    <option>الاثنين</option>
+    <option>الثلاثاء</option>
+    <option>الأربعاء</option>
+    <option>الخميس</option>
+    <option>الجمعة</option>
+  </select>
+
+  <input id="subject" placeholder="المادة" required>
+  <input id="time" type="time" required>
+  <button type="submit">إضافة</button>
+</form>
+
+<div id="scheduleList"></div>
+
+<script src="{{ url_for('static', filename='schedule.js') }}"></script>
+</body>
+</html>
