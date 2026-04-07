@@ -18,32 +18,34 @@ def schedule_page():
         subject = request.form.get("subject")
         class_time = request.form.get("class_time")
         
-        file = request.files.get("material_file")
-        file_path = ""
+    
+        files = request.files.getlist("material_file")
+        saved_paths = []
         
-        if file and file.filename != '':
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(UPLOAD_FOLDER, filename))
-            file_path = f"uploads/{filename}"
+
+        for file in files:
+            if file and file.filename != '':
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(UPLOAD_FOLDER, filename))
+                saved_paths.append(f"uploads/{filename}")
+
+        
+        file_path_string = "|".join(saved_paths)
 
         conn = get_db_connection()
         conn.execute("INSERT INTO schedule (user_id, day, subject, class_time, file_path) VALUES (?, ?, ?, ?, ?)", 
-                     (user_id, day, subject, class_time, file_path))
+                     (user_id, day, subject, class_time, file_path_string))
         conn.commit()
         conn.close()
         return redirect(url_for("schedule.schedule_page"))
         
     conn = get_db_connection()
-
     schedule_items = conn.execute("SELECT id, day, subject, class_time, file_path FROM schedule WHERE user_id = ?", (user_id,)).fetchall()
-
     user_data = conn.execute("SELECT main_schedule_path FROM users WHERE id = ?", (user_id,)).fetchone()
     main_schedule_path = user_data[0] if user_data and user_data[0] else ""
     conn.close()
     
-
     return render_template("schedule.html", schedule_items=schedule_items, main_schedule_path=main_schedule_path)
-
 
 @schedule_bp.route("/upload_main_schedule", methods=["POST"])
 def upload_main_schedule():

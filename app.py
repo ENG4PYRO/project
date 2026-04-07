@@ -13,6 +13,8 @@ from routes.tasks import tasks_bp
 from routes.schedule import schedule_bp
 from routes.exams import exams_bp
 
+
+
 load_dotenv() 
 
 app = Flask(__name__)
