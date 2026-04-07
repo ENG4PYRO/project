@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>التقرير الدراسي الفوري</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f7ff; color: #333; margin: 0; padding: 40px; text-align: center; }
+        .report-box { max-width: 600px; margin: auto; background: #fff; border: 2px solid #34c759; border-radius: 10px; padding: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .header { color: #34c759; margin-bottom: 20px; font-size: 28px;}
+        .details { background: #eefbee; padding: 20px; border-radius: 8px; border-right: 5px solid #34c759; margin-bottom: 30px; text-align: right; }
+        .details p { font-size: 18px; line-height: 1.6; margin: 10px 0; }
+        .footer { font-size: 14px; color: #777; margin-top: 20px; }
+        .btn-print { background: #4353ff; color: #fff; padding: 12px 24px; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; display: inline-block; transition: 0.3s;}
+        .btn-print:hover { background: #2f3be6; }
+        
+        @media print {
+            .btn-print { display: none; }
+            body { padding: 0; background: #fff; }
+            .report-box { border: none; box-shadow: none; max-width: 100%; }
+        }
+    </style>
+</head>
+<body onload="window.print()">
+    <div class="report-box">
+        <h1 class="header">📊 التقرير الدراسي الفوري</h1>
+        <p>تاريخ الإصدار: <strong>{{ today_date }}</strong></p>
+        <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px 0;">
+        
+        <div class="details">
+            <p>👤 <strong>الطالب:</strong> {{ fullname }}</p>
+            <p>📧 <strong>البريد:</strong> {{ email }}</p>
+            <hr style="border: 0; border-top: 1px dashed #ccc; margin: 15px 0;">
+            <p>✅ <strong>المهام المنجزة:</strong> <span style="color:#4353ff; font-weight:bold;">{{ completed_tasks }} مهام</span></p>
+            <p>⏱️ <strong>ساعات الدراسة:</strong> <span style="color:#ff9500; font-weight:bold;">{{ total_hours }} ساعة</span></p>
+            <p>📘 <strong>الامتحانات القادمة:</strong> <span style="color:#d32f2f; font-weight:bold;">{{ upcoming_exams }} امتحانات</span></p>
+        </div>
+        
+        <button class="btn-print" onclick="window.print()">🖨️ طباعة أو حفظ كـ PDF</button>
+        <p class="footer">تم إنشاء هذا التقرير آلياً بواسطة المساعد الدراسي 🚀</p>
+    </div>
+</body>
+</html>

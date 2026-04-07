@@ -1,0 +1,10 @@
+
+.env
+
+users.db
+
+
+static/uploads/
+
+__pycache__/
+*.pyc

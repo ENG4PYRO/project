@@ -25,6 +25,13 @@
                 <option value="مراجعة">مراجعة</option>
             </select>
         </div>
+        <select name="reminder_hours" required style="background-color: #eef1ff;">
+            <option value="0.5">تذكير قبل نصف ساعة</option>
+            <option value="1">تذكير قبل ساعة</option>
+            <option value="2" selected>تذكير قبل ساعتين</option>
+            <option value="12">تذكير قبل 12 ساعة</option>
+            <option value="24">تذكير قبل يوم</option>
+        </select>
         <button type="submit" class="btn-add">إضافة المهمة</button>
     </form>
     <hr>
@@ -38,6 +45,7 @@
                     <span>التاريخ: {{ item[2] }}</span>
                     {% if item[3] %}<span>الوقت: {{ item[3] }}</span>{% endif %}
                     {% if item[4] %}<span>المدة: {{ item[4] }} ساعة</span>{% endif %}
+                    <span style="font-size: 12px; color: #888; font-weight: bold; margin-top: 5px;">🔔 تذكير قبل: {{ item[7] }} ساعة</span>
                 </div>
                 <div class="actions">
                     {% if item[6] != 'منجزة' %}

@@ -9,12 +9,14 @@ def tasks_page():
     user_id = session["user_id"]
     conn = get_db_connection()
     if request.method == "POST":
-        conn.execute("INSERT INTO tasks (user_id, title, task_date, task_time, duration, task_type) VALUES (?, ?, ?, ?, ?, ?)",
-            (user_id, request.form.get("title"), request.form.get("task_date"), request.form.get("task_time"), request.form.get("duration"), request.form.get("task_type")))
+        reminder_hours = request.form.get("reminder_hours", 2)
+        conn.execute("INSERT INTO tasks (user_id, title, task_date, task_time, duration, task_type, reminder_hours) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (user_id, request.form.get("title"), request.form.get("task_date"), request.form.get("task_time"), request.form.get("duration"), request.form.get("task_type"), reminder_hours))
         conn.commit()
         conn.close()
         return redirect(url_for("tasks.tasks_page"))
-    task_items = conn.execute("SELECT id, title, task_date, task_time, duration, task_type, status FROM tasks WHERE user_id = ?", (user_id,)).fetchall()
+    
+    task_items = conn.execute("SELECT id, title, task_date, task_time, duration, task_type, status, reminder_hours FROM tasks WHERE user_id = ?", (user_id,)).fetchall()
     conn.close()
     return render_template("tasks.html", task_items=task_items)
 
@@ -33,12 +35,14 @@ def edit_task(task_id):
     user_id = session["user_id"]
     conn = get_db_connection()
     if request.method == "POST":
-        conn.execute("UPDATE tasks SET title=?, task_date=?, task_time=?, duration=?, task_type=? WHERE id=? AND user_id=?", 
-                     (request.form.get("title"), request.form.get("task_date"), request.form.get("task_time"), request.form.get("duration"), request.form.get("task_type"), task_id, user_id))
+        reminder_hours = request.form.get("reminder_hours", 2)
+        conn.execute("UPDATE tasks SET title=?, task_date=?, task_time=?, duration=?, task_type=?, reminder_hours=? WHERE id=? AND user_id=?", 
+                     (request.form.get("title"), request.form.get("task_date"), request.form.get("task_time"), request.form.get("duration"), request.form.get("task_type"), reminder_hours, task_id, user_id))
         conn.commit()
         conn.close()
         return redirect(url_for("tasks.tasks_page"))
-    task = conn.execute("SELECT id, title, task_date, task_time, duration, task_type FROM tasks WHERE id=? AND user_id=?", (task_id, user_id)).fetchone()
+
+    task = conn.execute("SELECT id, title, task_date, task_time, duration, task_type, reminder_hours FROM tasks WHERE id=? AND user_id=?", (task_id, user_id)).fetchone()
     conn.close()
     return render_template("edit_task.html", task=task)
 

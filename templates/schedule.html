@@ -5,45 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الجدول الدراسي</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* ستايل لتقسيم الشاشة إلى قسمين */
+        .layout-wrapper { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; align-items: flex-start; width: 100%; max-width: 900px; padding: 0 15px;}
+        /* نجعل الصناديق تتمدد بشكل متناسق */
+        .layout-wrapper .container { flex: 1; min-width: 320px; max-width: 400px; width: 100%; }
+        
+        .img-preview { width: 100%; border-radius: 10px; border: 1px solid #ccc; margin-top: 15px; transition: 0.3s; cursor: pointer; background: #fafafa;}
+        .img-preview:hover { opacity: 0.9; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h2>📚 الجدول الدراسي</h2>
-    <form class="add-form" action="/schedule" method="POST">
-        <select name="day" required>
-            <option value="" disabled selected>اختر اليوم</option>
-            <option value="السبت">السبت</option>
-            <option value="الأحد">الأحد</option>
-            <option value="الاثنين">الاثنين</option>
-            <option value="الثلاثاء">الثلاثاء</option>
-            <option value="الأربعاء">الأربعاء</option>
-            <option value="الخميس">الخميس</option>
-            <option value="الجمعة">الجمعة</option>
-        </select>
-        <input type="text" name="subject" placeholder="اسم المادة (مثال: رياضيات)" required>
-        <input type="time" name="class_time" required>
-        <button type="submit" class="btn-add">إضافة الحصة</button>
-    </form>
-    <hr>
-    <div id="scheduleList">
-        {% if schedule_items %}
-            {% for item in schedule_items %}
-            <div class="item-box">
-                <div class="details">
-                    <span><strong>{{ item[1] }}</strong></span>
-                    <span>المادة: {{ item[2] }}</span>
-                    <span>الوقت: {{ item[3] }}</span>
-                </div>
-                <form action="/delete_schedule/{{ item[0] }}" method="POST" style="margin:0;">
-                    <button type="submit" class="btn-delete">حذف</button>
-                </form>
+
+<div class="layout-wrapper">
+    <div class="container">
+        <h2>📚 الجدول الدراسي</h2>
+        
+        <form class="add-form" action="/schedule" method="POST" enctype="multipart/form-data">
+            <select name="day" required>
+                <option value="" disabled selected>اختر اليوم</option>
+                <option value="السبت">السبت</option>
+                <option value="الأحد">الأحد</option>
+                <option value="الاثنين">الاثنين</option>
+                <option value="الثلاثاء">الثلاثاء</option>
+                <option value="الأربعاء">الأربعاء</option>
+                <option value="الخميس">الخميس</option>
+                <option value="الجمعة">الجمعة</option>
+            </select>
+            <input type="text" name="subject" placeholder="اسم المادة (مثال: رياضيات)" required>
+            <input type="time" name="class_time" required>
+            
+            <div style="text-align: right; margin-top: 5px;">
+                <label style="font-size: 13px; color: #555; font-weight: bold;">مرفق اختياري:</label>
+                <input type="file" name="material_file" accept=".pdf,.png,.jpg,.jpeg,.docx" style="padding: 8px; font-size: 13px;">
             </div>
-            {% endfor %}
-        {% else %}
-            <p class="empty-msg">لا توجد حصص في جدولك حالياً.</p>
+            
+            <button type="submit" class="btn-add">إضافة الحصة</button>
+        </form>
+        <hr>
+        
+        <div id="scheduleList">
+            {% if schedule_items %}
+                {% for item in schedule_items %}
+                <div class="item-box">
+                    <div class="details">
+                        <span><strong>{{ item[1] }}</strong></span>
+                        <span>المادة: {{ item[2] }}</span>
+                        <span>الوقت: {{ item[3] }}</span>
+                        
+                        {% if item[4] %}
+                            <a href="{{ url_for('static', filename=item[4]) }}" target="_blank" style="display:inline-block; margin-top:6px; font-size:13px; color:#4353ff; font-weight:bold; text-decoration:none; background:#eef1ff; padding:4px 8px; border-radius:4px;">📎 عرض المرفق</a>
+                        {% endif %}
+                    </div>
+                    <form action="/delete_schedule/{{ item[0] }}" method="POST" style="margin:0;">
+                        <button type="submit" class="btn-delete">حذف</button>
+                    </form>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="empty-msg">لا توجد حصص في جدولك حالياً.</p>
+            {% endif %}
+        </div>
+        <a class="btn-back" href="/">🔙 العودة للرئيسية</a>
+    </div>
+
+    <div class="container">
+        <h2>🖼️ صورتي للجدول</h2>
+        
+        <form action="/upload_main_schedule" method="POST" enctype="multipart/form-data">
+            <label style="font-size: 14px; font-weight: bold; color: #555; display:block; margin-bottom:8px; text-align: right;">ارفع صورة جدولك لتبقى أمامك دائماً:</label>
+            <input type="file" name="main_schedule_file" accept=".png,.jpg,.jpeg,.pdf" required style="margin-bottom: 10px; padding: 10px;">
+            <button type="submit" class="btn" style="width: 100%; background: #34c759;">حفظ الصورة ✔</button>
+        </form>
+
+        {% if main_schedule_path %}
+            <hr>
+            {% if main_schedule_path.endswith('.pdf') %}
+                <a href="{{ url_for('static', filename=main_schedule_path) }}" target="_blank" class="btn" style="background:#ff9500; margin-top:10px;">عرض ملف الـ PDF 📄</a>
+            {% else %}
+                <a href="{{ url_for('static', filename=main_schedule_path) }}" target="_blank">
+                    <img src="{{ url_for('static', filename=main_schedule_path) }}" alt="جدولك الدراسي" class="img-preview">
+                </a>
+                <p style="font-size:12px; color:#888; margin-top: 5px;">اضغط على الصورة لتكبيرها</p>
+            {% endif %}
         {% endif %}
     </div>
-    <a class="btn-back" href="/">🔙 العودة للرئيسية</a>
 </div>
+
 </body>
 </html>

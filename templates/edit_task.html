@@ -25,6 +25,13 @@
                 <option value="مراجعة" {% if task[5] == 'مراجعة' %}selected{% endif %}>مراجعة</option>
             </select>
         </div>
+        <select name="reminder_hours" required style="background-color: #eef1ff;">
+            <option value="0.5" {% if task[6] == 0.5 %}selected{% endif %}>تذكير قبل نصف ساعة</option>
+            <option value="1" {% if task[6] == 1 %}selected{% endif %}>تذكير قبل ساعة</option>
+            <option value="2" {% if task[6] == 2 %}selected{% endif %}>تذكير قبل ساعتين</option>
+            <option value="12" {% if task[6] == 12 %}selected{% endif %}>تذكير قبل 12 ساعة</option>
+            <option value="24" {% if task[6] == 24 %}selected{% endif %}>تذكير قبل يوم</option>
+        </select>
         <button type="submit" class="btn" style="background: #34c759;">حفظ التعديلات</button>
     </form>
     <a class="btn-back" style="background: #f0f0f0; color: #333;" href="/tasks">الغاء والعودة</a>
